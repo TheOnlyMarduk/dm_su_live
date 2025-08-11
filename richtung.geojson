@@ -1,0 +1,20 @@
+{
+"type": "FeatureCollection",
+"name": "richtung",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.005, "angle": 97.41477106722823 }, "geometry": { "type": "Point", "coordinates": [ 7.205952853429583, 50.79432481547034 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.01, "angle": 205.47800739243741 }, "geometry": { "type": "Point", "coordinates": [ 7.20875484789574, 50.793848966148872 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.015, "angle": 72.880553489171959 }, "geometry": { "type": "Point", "coordinates": [ 7.212267111648824, 50.793789337717662 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.02, "angle": 261.46939997616676 }, "geometry": { "type": "Point", "coordinates": [ 7.212991363014813, 50.792538607416034 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.025, "angle": 151.98828558968953 }, "geometry": { "type": "Point", "coordinates": [ 7.215369840692987, 50.79154015757603 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.03, "angle": 74.387474957496181 }, "geometry": { "type": "Point", "coordinates": [ 7.219906792092052, 50.79228564220989 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.035, "angle": 307.89586935542735 }, "geometry": { "type": "Point", "coordinates": [ 7.222773976508886, 50.795233524723578 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.04, "angle": 284.61502925568141 }, "geometry": { "type": "Point", "coordinates": [ 7.218442077628039, 50.797607691178229 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.045, "angle": 302.85398965940107 }, "geometry": { "type": "Point", "coordinates": [ 7.213612565760767, 50.798511979346813 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.05, "angle": 291.7605071784705 }, "geometry": { "type": "Point", "coordinates": [ 7.209141263937548, 50.800458587268437 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.055, "angle": 158.01522305699555 }, "geometry": { "type": "Point", "coordinates": [ 7.208345268310011, 50.797945553040407 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.06, "angle": 174.83431931450548 }, "geometry": { "type": "Point", "coordinates": [ 7.204791269048802, 50.795624772117051 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.065, "angle": 350.242559998834 }, "geometry": { "type": "Point", "coordinates": [ 7.206085637214889, 50.796264321689279 ] } }
+]
+}

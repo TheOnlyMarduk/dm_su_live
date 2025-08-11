@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "kinder_richtung",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.005, "angle": 97.41477106722823 }, "geometry": { "type": "Point", "coordinates": [ 7.205952853429583, 50.79432481547034 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.06, "angle": 174.83431931450548 }, "geometry": { "type": "Point", "coordinates": [ 7.204791269048802, 50.795624772117051 ] } },
+{ "type": "Feature", "properties": { "OBJECTID": 1, "id": 1, "Strecke": "5km Runde", "Laenge_kan": 4776.1659494100013, "Shape_Leng": 4776.1659494100013, "distance": 0.065, "angle": 350.242559998834 }, "geometry": { "type": "Point", "coordinates": [ 7.206085637214889, 50.796264321689279 ] } }
+]
+}

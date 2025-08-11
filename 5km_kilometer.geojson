@@ -1,0 +1,11 @@
+{
+"type": "FeatureCollection",
+"name": "5km_kilometer",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null, "kilometer": 1 }, "geometry": { "type": "Point", "coordinates": [ 7.214074870013682, 50.793917830895573 ] } },
+{ "type": "Feature", "properties": { "id": null, "kilometer": 2 }, "geometry": { "type": "Point", "coordinates": [ 7.219348036299869, 50.79213258667599 ] } },
+{ "type": "Feature", "properties": { "id": null, "kilometer": 3 }, "geometry": { "type": "Point", "coordinates": [ 7.216886931063748, 50.797963155437877 ] } },
+{ "type": "Feature", "properties": { "id": null, "kilometer": 4 }, "geometry": { "type": "Point", "coordinates": [ 7.208088755753213, 50.798646759073691 ] } }
+]
+}

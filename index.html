@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8" />
+<title>Laufstrecken</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+<style>
+  html, body { margin: 0; padding: 0; height: 100%; }
+  #map { height: 100vh; width: 100vw; }
+  .arrow-icon { font-size: 20px; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; pointer-events: none; }
+  .arrow-symbol { display: inline-block; transform-origin: center; }
+  .marker-label { background: white; border: 2px solid black; border-radius: 50%; text-align: center; font-weight: bold; color: black; box-shadow: 0 0 3px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; }
+  .km-label { background: yellow; border: 1px solid black; border-radius: 3px; padding: 2px 5px; font-weight: bold; font-size: 12px; display: flex; align-items: center; justify-content: center; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script>
+const map = L.map('map');
+
+// OpenStreetMap-Kachel-Layer
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+
+// Layer-Gruppen für alle Läufe und Parkplätze
+const layer10km = L.layerGroup();
+const layer5km = L.layerGroup();
+const layerSchuelerlauf = L.layerGroup();
+const layerKinderlauf = L.layerGroup();
+const layerBambinilauf = L.layerGroup();
+const parkingLayer = L.layerGroup();
+
+let startMarker10km, goalMarker10km;
+let startMarker5km, goalMarker5km;
+let startMarkerSchueler, goalMarkerSchueler;
+let startMarkerKinderlauf, goalMarkerKinderlauf;
+let startMarkerBambinilauf, goalMarkerBambinilauf;
+
+// Funktion für skalierte Marker-Beschriftungen abhängig vom Zoomlevel
+function createScaledMarkerLabel(text, baseSize, color = 'black') {
+  const zoom = map.getZoom();
+  const scale = Math.min(1, Math.max(0.6, (zoom - 12) / 6));
+  const size = baseSize * scale;
+  return `<div class="marker-label" style="width:${size}px;height:${size}px;font-size:${size*0.45}px;color:${color};border-color:${color};">${text}</div>`;
+}
+
+// Start- und Zielmarker hinzufügen
+function addStartAndGoalMarkers(geojson, color, labelText, targetLayer, markerRefs) {
+  if (!geojson.features || geojson.features.length === 0) return;
+  const coords = geojson.features[0].geometry.coordinates;
+  const startLatLng = L.latLng(coords[0][1], coords[0][0]);
+  const goalLatLng = L.latLng(coords[coords.length - 1][1], coords[coords.length - 1][0]);
+
+  const startIcon = () => L.divIcon({ className: "start-goal-icon", iconAnchor: [15,15], html: createScaledMarkerLabel(labelText, 30, color) });
+  const goalIcon = () => L.divIcon({ className: "start-goal-icon", iconAnchor: [15,15], html: createScaledMarkerLabel("Ziel", 30, color) });
+
+  markerRefs.start = L.marker(startLatLng, { icon: startIcon() }).addTo(targetLayer);
+  markerRefs.goal = L.marker(goalLatLng, { icon: goalIcon() }).addTo(targetLayer);
+
+  // Icons beim Zoom anpassen
+  map.on('zoomend', () => {
+    if (markerRefs.start) markerRefs.start.setIcon(startIcon());
+    if (markerRefs.goal) markerRefs.goal.setIcon(goalIcon());
+  });
+}
+
+// Pfeile laden und darstellen
+function loadAndDrawArrows(geojsonUrl, color, targetLayer) {
+  fetch(geojsonUrl)
+    .then(res => res.json())
+    .then(data => {
+      data.features.forEach(feature => {
+        if (!feature.geometry || feature.geometry.type !== 'Point') return;
+        const coords = feature.geometry.coordinates;
+        const angle = (feature.properties.angle + 270) % 360;
+        const latlng = L.latLng(coords[1], coords[0]);
+        const arrowHtml = `<span class="arrow-symbol" style="transform: rotate(${angle}deg); color: ${color};">➤</span>`;
+        const arrowIcon = L.divIcon({ className: 'arrow-icon', html: arrowHtml, iconSize: [20,20], iconAnchor: [10,10] });
+        L.marker(latlng, { icon: arrowIcon }).addTo(targetLayer);
+      });
+    })
+    .catch(err => console.error(`Fehler beim Laden der ${geojsonUrl}:`, err));
+}
+
+// Kilometerpunkte laden und anzeigen
+function loadKilometerPoints(geojsonUrl, color, targetLayer, mode = "10km") {
+  fetch(geojsonUrl)
+    .then(res => res.json())
+    .then(data => {
+      data.features.forEach(feature => {
+        if (!feature.geometry || feature.geometry.type !== 'Point') return;
+        const coords = feature.geometry.coordinates;
+        const latlng = L.latLng(coords[1], coords[0]);
+        const km = feature.properties.kilometer;
+
+        const anchor10km = { 1:[7,-15], 2:[40,5], 3:[-5,35], 4:[0,35], 5:[7,-15], 6:[40,5], 7:[5,-15], 8:[5,38], 9:[40,5] };
+        const map5to10 = { 1:6, 2:7, 3:8, 4:9, 5:5 };
+        const anchorSchueler = { 1:[10,-20], 2:[0,35], 3:[10,35] };
+        const mapSchueler = {};
+
+        let anchor;
+        if (mode === "10km") {
+          anchor = anchor10km[km] || [10,0];
+        } else if (mode === "5km") {
+          const mappedKm = map5to10[km] || km;
+          anchor = anchor10km[mappedKm] || [10,0];
+        } else if (mode === "schueler") {
+          const mappedKm = mapSchueler[km] || km;
+          anchor = anchorSchueler[mappedKm] || [10,0];
+        }
+
+        L.circleMarker(latlng, { radius: 5, color: color, fillColor: color, fillOpacity: 1 }).addTo(targetLayer);
+        const labelIcon = L.divIcon({ className: 'km-label', html: km, iconAnchor: anchor });
+        L.marker(latlng, { icon: labelIcon }).addTo(targetLayer);
+      });
+    })
+    .catch(err => console.error(`Fehler beim Laden der ${geojsonUrl}:`, err));
+}
+
+// Parkplätze laden und darstellen
+function loadAndDrawParking() {
+  fetch('parken.geojson')
+    .then(res => res.json())
+    .then(data => {
+      data.features.forEach(feature => {
+        if (!feature.geometry || feature.geometry.type !== 'Point') return;
+        const coords = feature.geometry.coordinates;
+        const latlng = L.latLng(coords[1], coords[0]);
+        const adresse = feature.properties.adresse || "Parkplatz";
+        const parkIcon = () => L.divIcon({ className: "start-goal-icon", iconAnchor: [15,15], html: createScaledMarkerLabel("P", 30) });
+        const marker = L.marker(latlng, { icon: parkIcon() }).addTo(parkingLayer);
+        marker.bindTooltip(adresse.replace(/\n/g, '<br>'), { permanent: false, direction: 'top', opacity: 0.9, sticky: true, interactive: true });
+        map.on('zoomend', () => marker.setIcon(parkIcon()));
+      });
+      parkingLayer.addTo(map);
+    })
+    .catch(err => console.error("Fehler beim Laden der parken.geojson:", err));
+}
+
+// 10km-Lauf laden und zeichnen, + Layer zum LayerGroup hinzufügen
+fetch('10km.geojson')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data, { style: { color: 'blue', weight: 4 } }).addTo(layer10km);
+    map.fitBounds(L.geoJSON(data).getBounds(), { padding: [20,20] });
+    addStartAndGoalMarkers(data, 'blue', '10k', layer10km, { start: startMarker10km, goal: goalMarker10km });
+    loadAndDrawArrows('richtung.geojson', 'blue', layer10km);
+    loadKilometerPoints('10km_kilometer.geojson', 'blue', layer10km, "10km");
+  });
+
+// 5km-Lauf laden
+fetch('5km.geojson')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data, { style: { color: 'red', weight: 4 } }).addTo(layer5km);
+    addStartAndGoalMarkers(data, 'red', '5k', layer5km, { start: startMarker5km, goal: goalMarker5km });
+    loadAndDrawArrows('5km_richtung.geojson', 'red', layer5km);
+    loadKilometerPoints('5km_kilometer.geojson', 'red', layer5km, "5km");
+  });
+
+// Schülerlauf laden
+fetch('schuelerlauf.geojson')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data, { style: { color: 'green', weight: 4 } }).addTo(layerSchuelerlauf);
+    addStartAndGoalMarkers(data, 'green', 'S', layerSchuelerlauf, { start: startMarkerSchueler, goal: goalMarkerSchueler });
+    loadAndDrawArrows('schueler_richtung.geojson', 'green', layerSchuelerlauf);
+    loadKilometerPoints('schueler_kilometer.geojson', 'green', layerSchuelerlauf, "schueler");
+  });
+
+// Kinderlauf laden (ohne Kilometerpunkte)
+fetch('kinderlauf.geojson')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data, { style: { color: 'brown', weight: 4 } }).addTo(layerKinderlauf);
+    addStartAndGoalMarkers(data, 'brown', 'K', layerKinderlauf, { start: startMarkerKinderlauf, goal: goalMarkerKinderlauf });
+    loadAndDrawArrows('kinder_richtung.geojson', 'brown', layerKinderlauf);
+  });
+
+// Bambinilauf laden (ohne Kilometerpunkte)
+fetch('bambinilauf.geojson')
+  .then(res => res.json())
+  .then(data => {
+    L.geoJSON(data, { style: { color: 'black', weight: 4 } }).addTo(layerBambinilauf);
+    addStartAndGoalMarkers(data, 'black', 'B', layerBambinilauf, { start: startMarkerBambinilauf, goal: goalMarkerBambinilauf });
+    loadAndDrawArrows('bambini_richtung.geojson', 'black', layerBambinilauf);
+  });
+
+// Parkplätze laden
+loadAndDrawParking();
+
+// ** WICHTIG: Laufstrecken als Basis-Layer (Radio-Buttons), Parkplätze als Overlay (Checkbox) **
+const baseLayers = {
+  "10 km DM und Citylauf (2 Runden)": layer10km,
+  "5 km Citylauf": layer5km,
+  "3,6 km KSK Köln - Schülerlauf (U14/U16)": layerSchuelerlauf,
+  "1,2 km KSK Köln - Kinderlauf (U10/U12) (2 Runden)": layerKinderlauf,
+  "0,6 km KSK Köln - Bambinilauf (U8)": layerBambinilauf
+};
+
+const overlays = {
+  "Parkplätze": parkingLayer
+};
+
+// 10 km Lauf und Parkplätze standardmäßig anzeigen
+layer10km.addTo(map);
+parkingLayer.addTo(map);
+
+// Layer-Kontrolle mit Basis-Layern (Radio-Buttons) und Overlays (Checkboxen)
+L.control.layers(baseLayers, overlays, { collapsed: false }).addTo(map);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "schueler_kilometer",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null, "kilometer": 1 }, "geometry": { "type": "Point", "coordinates": [ 7.209525688048031, 50.793128815774438 ] } },
+{ "type": "Feature", "properties": { "id": null, "kilometer": 2 }, "geometry": { "type": "Point", "coordinates": [ 7.212110400363279, 50.799702837277827 ] } },
+{ "type": "Feature", "properties": { "id": null, "kilometer": 3 }, "geometry": { "type": "Point", "coordinates": [ 7.205320840085946, 50.796330836920752 ] } }
+]
+}

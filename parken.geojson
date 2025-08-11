@@ -1,0 +1,10 @@
+{
+"type": "FeatureCollection",
+"name": "parken",
+"features": [
+{ "type": "Feature", "properties": { "Id": 0, "adresse": "Mühlentorplatz\n Siegfeldstraße 16" }, "geometry": { "type": "Point", "coordinates": [ 7.209907285597189, 50.793827025270666 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "adresse": "Parkhaus P 10\n Wilhelmstraße 8" }, "geometry": { "type": "Point", "coordinates": [ 7.205525177199891, 50.792400459343234 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "adresse": "Rhein-Sieg-Forum\n Bachstraße 1" }, "geometry": { "type": "Point", "coordinates": [ 7.205143240297424, 50.798234566634704 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "adresse": "Siegburg Med\n Mahrstraße 1" }, "geometry": { "type": "Point", "coordinates": [ 7.201732281981637, 50.795851930214155 ] } }
+]
+}

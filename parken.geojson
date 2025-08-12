@@ -2,9 +2,12 @@
 "type": "FeatureCollection",
 "name": "parken",
 "features": [
-{ "type": "Feature", "properties": { "Id": 0, "adresse": "Mühlentorplatz\n Siegfeldstraße 16" }, "geometry": { "type": "Point", "coordinates": [ 7.209907285597189, 50.793827025270666 ] } },
-{ "type": "Feature", "properties": { "Id": 0, "adresse": "Parkhaus P 10\n Wilhelmstraße 8" }, "geometry": { "type": "Point", "coordinates": [ 7.205525177199891, 50.792400459343234 ] } },
-{ "type": "Feature", "properties": { "Id": 0, "adresse": "Rhein-Sieg-Forum\n Bachstraße 1" }, "geometry": { "type": "Point", "coordinates": [ 7.205143240297424, 50.798234566634704 ] } },
-{ "type": "Feature", "properties": { "Id": 0, "adresse": "Siegburg Med\n Mahrstraße 1" }, "geometry": { "type": "Point", "coordinates": [ 7.201732281981637, 50.795851930214155 ] } }
+{ "type": "Feature", "properties": { "Id": 0, "adr": "Mühlentorplatz\n Siegfeldstraße 16" }, "geometry": { "type": "Point", "coordinates": [ 7.210525500987679, 50.793826226122803 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "adr": "Parkhaus P 10\n Wilhelmstraße 8" }, "geometry": { "type": "Point", "coordinates": [ 7.205680863447314, 50.79248595757727 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "adr": "Parkzentrum Rhein-Sieg-Forum\n Bachstraße 1" }, "geometry": { "type": "Point", "coordinates": [ 7.205143240297424, 50.798234566634704 ] } },
+{ "type": "Feature", "properties": { "Id": 0, "adr": "Tiefgarage Facharztzentrum\n Mahrstraße 1" }, "geometry": { "type": "Point", "coordinates": [ 7.20186674782874, 50.796049938869892 ] } },
+{ "type": "Feature", "properties": { "Id": null, "adr": "Neunhof/Kleiberg\n Neuenhof 4" }, "geometry": { "type": "Point", "coordinates": [ 7.213830278185138, 50.798108837819328 ] } },
+{ "type": "Feature", "properties": { "Id": null, "adr": "Parkzentrum Holzgasse\n Scheerengasse 5" }, "geometry": { "type": "Point", "coordinates": [ 7.209850331452712, 50.798977291630472 ] } },
+{ "type": "Feature", "properties": { "Id": null, "adr": "Parkhaus Mitte\n Grimmelsgasse 4" }, "geometry": { "type": "Point", "coordinates": [ 7.20892641524697, 50.799321674017641 ] } }
 ]
 }

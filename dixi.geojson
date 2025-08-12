@@ -1,0 +1,8 @@
+{
+"type": "FeatureCollection",
+"name": "dixi",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "id": null, "typ": "Toilette", "info": "Dixi" }, "geometry": { "type": "Point", "coordinates": [ 7.207244413949337, 50.796645157159745 ] } }
+]
+}

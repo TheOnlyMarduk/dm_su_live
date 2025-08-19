@@ -37,6 +37,7 @@ const oepnvLayer = L.layerGroup();
 const duscheLayer = L.layerGroup();
 const dixiLayer = L.layerGroup();
 const startLayer = L.layerGroup();
+const dopingLayer = L.layerGroup();
 
 // Marker-Referenzen
 let startMarker10km, goalMarker10km;
@@ -104,7 +105,7 @@ function loadKilometerPoints(geojsonUrl, color, targetLayer, mode = "10km") {
         const latlng = L.latLng(coords[1], coords[0]);
         const km = feature.properties.kilometer;
 
-        const anchor10km = { 1:[7,-15], 2:[40,5], 3:[-5,35], 4:[0,35], 5:[7,-15], 6:[40,5], 7:[5,-15], 8:[5,38], 9:[40,5] };
+        const anchor10km = { 1:[7,-15], 2:[30,-10], 3:[-5,35], 4:[0,35], 5:[7,-15], 6:[30,-10], 7:[5,-15], 8:[5,38], 9:[40,5] };
         const map5to10 = { 1:6, 2:7, 3:8, 4:9, 5:5 };
         const anchorSchueler = { 1:[10,-20], 2:[0,35], 3:[10,35] };
         const mapSchueler = {};
@@ -187,7 +188,7 @@ function loadAndDrawDusche() {
         const duscheIcon = () => L.divIcon({ 
           className: "start-goal-icon", 
           iconAnchor: [15,15], 
-          html: createScaledMarkerLabel("U", 30, "red") 
+          html: createScaledMarkerLabel("U", 40, "red") 
         });
         const marker = L.marker(latlng, { icon: duscheIcon() }).addTo(duscheLayer);
         marker.bindTooltip(info.replace(/\n/g, '<br>'), { permanent: false, direction: 'top', opacity: 0.9, sticky: true, interactive: true });
@@ -209,7 +210,7 @@ function loadAndDrawDixi() {
         const dixiIcon = () => L.divIcon({ 
           className: "start-goal-icon", 
           iconAnchor: [15,15], 
-          html: createScaledMarkerLabel("WC", 30, "red") 
+          html: createScaledMarkerLabel("WC", 40, "red") 
         });
         const marker = L.marker(latlng, { icon: dixiIcon() }).addTo(dixiLayer);
         map.on('zoomend', () => marker.setIcon(dixiIcon()));
@@ -230,7 +231,7 @@ function loadAndDrawStart() {
         const startIcon = () => L.divIcon({ 
           className: "start-goal-icon", 
           iconAnchor: [15,15], 
-          html: createScaledMarkerLabel("S", 30, "red") 
+          html: createScaledMarkerLabel("S", 40, "red") 
         });
         const marker = L.marker(latlng, { icon: startIcon() }).addTo(startLayer);
         marker.bindTooltip(info.replace(/\n/g, '<br>'), { permanent: false, direction: 'top', opacity: 0.9, sticky: true, interactive: true });
@@ -239,7 +240,28 @@ function loadAndDrawStart() {
     })
     .catch(err => console.error("Fehler beim Laden der startunterlagen.geojson:", err));
 }
-
+// Doping laden
+function loadAndDrawDoping() {
+  fetch('doping.geojson')
+    .then(res => res.json())
+    .then(data => {
+      data.features.forEach(feature => {
+        if (!feature.geometry || feature.geometry.type !== 'Point') return;
+        const coords = feature.geometry.coordinates;
+        const latlng = L.latLng(coords[1], coords[0]);
+        const info = feature.properties.info || "Dopingkontrolle";
+        const dopingIcon = () => L.divIcon({ 
+          className: "start-goal-icon", 
+          iconAnchor: [15,15], 
+          html: createScaledMarkerLabel("D", 40, "red") 
+        });
+        const marker = L.marker(latlng, { icon: dopingIcon() }).addTo(dopingLayer);
+        marker.bindTooltip(info.replace(/\n/g, '<br>'), { permanent: false, direction: 'top', opacity: 0.9, sticky: true, interactive: true });
+        map.on('zoomend', () => marker.setIcon(dopingIcon()));
+      });
+    })
+    .catch(err => console.error("Fehler beim Laden der doping.geojson:", err));
+}
   
 // Laufstrecken laden
 fetch('10km.geojson')
@@ -288,6 +310,7 @@ fetch('bambinilauf.geojson')
   });
 
 // Overlays laden
+loadAndDrawDoping(); 
 loadAndDrawStart();  
 loadAndDrawDusche();
 loadAndDrawDixi();
@@ -306,6 +329,7 @@ const baseLayers = {
 // Overlays
 const overlays = {
   "Startunterlagen": startLayer,
+  "Dopingkontrolle": dopingLayer,
   "Umkleide": duscheLayer,
   "Mobile Toiletten": dixiLayer,
   "Parkplätze": parkingLayer,

@@ -3,6 +3,7 @@
 "name": "dusche",
 "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
 "features": [
-{ "type": "Feature", "properties": { "id": null, "typ": "Dusche", "info": "Sporthalle Gymnasiume Alleestraße\n  Alleestraße 2\n Geöffnet 9-17Uhr\n Umkleide, Dusche und WC" }, "geometry": { "type": "Point", "coordinates": [ 7.202897269750526, 50.796929661337572 ] } }
+{ "type": "Feature", "properties": { "id": null, "typ": "Dusche", "info": "Sporthalle Gymnasiume Alleestraße\n  Alleestraße 2\n Geöffnet 9-17Uhr\n Umkleide, Dusche und WC" }, "geometry": { "type": "Point", "coordinates": [ 7.202897269750526, 50.796929661337572 ] } },
+{ "type": "Feature", "properties": { "id": null, "typ": "Dusche", "info": "Sporthalle Schulzentrum Neuenhof\n Zeithstraße 72\n  Geöffnet 9-17Uhr\n Umkleide, Dusche und WC" }, "geometry": { "type": "Point", "coordinates": [ 7.216582639540414, 50.80029498208777 ] } }
 ]
 }

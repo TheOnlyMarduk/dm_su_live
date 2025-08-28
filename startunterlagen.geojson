@@ -6,5 +6,3 @@
 { "type": "Feature", "properties": { "id": null, "typ": "Startunterlagen", "info": "Container\n Elisabethstraße\n Ausgabe der Unterlagen\n Samstag 16-19Uhr\n Sonntag ab 8Uhr" }, "geometry": { "type": "Point", "coordinates": [ 7.205171076874879, 50.79707356736067 ] } }
 ]
 }
-
-

@@ -40,6 +40,7 @@ const startLayer = L.layerGroup();
 const dopingLayer = L.layerGroup();
 const umleitungLayer = L.layerGroup();
 const verbotLayer = L.layerGroup();
+const kleiderLayer = L.layerGroup();
 
 // Marker-Referenzen
 let startMarker10km, goalMarker10km;
@@ -264,6 +265,28 @@ function loadAndDrawDoping() {
     })
     .catch(err => console.error("Fehler beim Laden der doping.geojson:", err));
 }
+// Kleiderbeutel Ablage laden
+function loadAndDrawKleider() {
+  fetch('kleiderbeutel.geojson')
+    .then(res => res.json())
+    .then(data => {
+      data.features.forEach(feature => {
+        if (!feature.geometry || feature.geometry.type !== 'Point') return;
+        const coords = feature.geometry.coordinates;
+        const latlng = L.latLng(coords[1], coords[0]);
+        const info = feature.properties.info || "Kleiderbeutelaufbewahrung";
+        const kleiderIcon = () => L.divIcon({ 
+          className: "start-goal-icon", 
+          iconAnchor: [15,15], 
+          html: createScaledMarkerLabel("K", 40, "red") 
+        });
+        const marker = L.marker(latlng, { icon: kleiderIcon() }).addTo(kleiderLayer);
+        marker.bindTooltip(info.replace(/\n/g, '<br>'), { permanent: false, direction: 'top', opacity: 0.9, sticky: true, interactive: true });
+        map.on('zoomend', () => marker.setIcon(kleiderIcon()));
+      });
+    })
+    .catch(err => console.error("Fehler beim Laden der kleiderbeutel.geojson:", err));
+}
  // ===================== Umleitung =====================
 function loadUmleitung() {
   fetch('umleitung.geojson')
@@ -370,6 +393,7 @@ loadAndDrawParking();
 loadAndDrawOepnv();
 loadUmleitung();
 loadVerbot();
+loadAndDrawKleider();
 
 // Basis-Layer
 const baseLayers = {
@@ -386,6 +410,7 @@ const overlays = {
   "Dopingkontrolle": dopingLayer,
   "Umkleide": duscheLayer,
   "Mobile Toiletten": dixiLayer,
+  "Kleiderbeutelaufbewahrung": kleiderLayer,
   "Parkplätze": parkingLayer,
   "ÖPNV": oepnvLayer,
   "Umleitung und Straßensperrungen": L.layerGroup([umleitungLayer, verbotLayer])
@@ -395,7 +420,7 @@ const overlays = {
 layer10km.addTo(map);
 
 // Layer-Kontrolle
-L.control.layers(baseLayers, overlays, { collapsed: true }).addTo(map);
+L.control.layers(baseLayers, overlays, { collapsed: true  }).addTo(map);
 
 // Beim Layerwechsel immer auf 10km-Bounds zoomen
 map.on('baselayerchange', function(e) {
@@ -407,4 +432,3 @@ map.on('baselayerchange', function(e) {
 </script>
 </body>
 </html>
-
